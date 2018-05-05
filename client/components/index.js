@@ -8,4 +8,4 @@ export { default as ScoreButtons } from './scoreButtons';
 export { default as TurnButtons } from './turnButtons';
 export { default as ShowScore } from './showScore';
 export { default as ScoreBox } from './scoreBox';
-
+export { default as StartScreen } from './startScreen';

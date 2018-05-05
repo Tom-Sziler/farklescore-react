@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter, Route, Switch } from 'react-router-dom';
-import { ScoreButtons } from './components';
+import { StartScreen, ScoreButtons } from './components';
 import {} from './store';
 
 /**
@@ -11,7 +11,8 @@ class Routes extends Component {
   render() {
     return (
       <Switch>
-        <Route path="/" component={ScoreButtons} />
+        <Route exact path="/" component={ StartScreen } />
+        <Route path="/game" component={ScoreButtons} />
       </Switch>
     );
   }
