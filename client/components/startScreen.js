@@ -15,7 +15,7 @@ class StartScreen extends React.Component {
       { key: 3, text: '10000', value: 10000 },
       { key: 4, text: '15000', value: 15000 }
     ];
-    let playerList = ['Tom', 'Jeawnnette', 'Dad', 'Mom', 'Timnmy'];
+    let playerList = [] //['Tom', 'Jeannette', 'Dad', 'Mom', 'Timnmy'];
     return (
       <div className="startContainer">
         <h1> Enter Player Names </h1>
