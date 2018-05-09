@@ -32,7 +32,7 @@ export const fetchAllPlayers = () => dispatch => {
 
 export const deletePlayer = (playerId) => dispatch => {
   axios.delete(`/api/players/${playerId}`)
-    .then(res => dispatch(removePlayer(res.data)));
+    .then(res => dispatch(removePlayer(playerId)));
 };
 
 export const newPlayer = () => dispatch => {
@@ -53,7 +53,7 @@ export default function (playerList = defaultPlayer, action) {
   case GET_ALL_PLAYERS:
     return action.players;
   case REMOVE_PLAYER:
-    return playerList.filter(player => player.id !== action.player.id);
+    return playerList.filter(player => player.id !== action.player);
   case ADD_PLAYER:
     return [...playerList, action.player];
   case CHANGE_INFO:
