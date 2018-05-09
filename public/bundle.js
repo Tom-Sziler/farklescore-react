@@ -29654,7 +29654,12 @@ var StartScreen = function (_React$Component) {
   function StartScreen(props) {
     _classCallCheck(this, StartScreen);
 
-    return _possibleConstructorReturn(this, (StartScreen.__proto__ || Object.getPrototypeOf(StartScreen)).call(this, props));
+    var _this = _possibleConstructorReturn(this, (StartScreen.__proto__ || Object.getPrototypeOf(StartScreen)).call(this, props));
+
+    _this.state = {
+      formInput: ''
+    };
+    return _this;
   }
 
   _createClass(StartScreen, [{
@@ -29667,9 +29672,25 @@ var StartScreen = function (_React$Component) {
     value: function render() {
       var _this2 = this;
 
+      var handleChange = function handleChange(evt) {
+        _this2.setState({
+          formInput: evt.target.value
+        });
+      };
+
+      var handleSubmit = function handleSubmit(evt) {
+        evt.preventDefault();
+        _this2.props.addPlayer(_this2.state.formInput);
+      };
+
+      var resetForm = function resetForm() {
+        _this2.setState({
+          formInput: ''
+        });
+      };
+
       var options = [{ key: 1, text: '5000', value: 5000 }, { key: 2, text: '7500', value: 7500 }, { key: 3, text: '10000', value: 10000 }, { key: 4, text: '15000', value: 15000 }];
       var playerList = this.props.playerList;
-      console.log('player list...', playerList);
       return this.props.playerList ? _react2.default.createElement(
         'div',
         { className: 'startContainer' },
@@ -29683,11 +29704,15 @@ var StartScreen = function (_React$Component) {
           { className: 'form-container' },
           _react2.default.createElement(
             _semanticUiReact.Form,
-            null,
+            { onSubmit: function onSubmit(e) {
+                handleSubmit(e);resetForm();
+              } },
             _react2.default.createElement(
               _semanticUiReact.Form.Field,
               null,
-              _react2.default.createElement('input', { placeholder: 'Enter Player Name' })
+              _react2.default.createElement('input', { name: 'nameField', value: this.state.formInput, onChange: function onChange(evt) {
+                  return handleChange(evt);
+                }, placeholder: 'Enter Player Name' })
             ),
             _react2.default.createElement(
               _semanticUiReact.Button,
@@ -30055,9 +30080,9 @@ var deletePlayer = exports.deletePlayer = function deletePlayer(playerId) {
   };
 };
 
-var newPlayer = exports.newPlayer = function newPlayer() {
+var newPlayer = exports.newPlayer = function newPlayer(name) {
   return function (dispatch) {
-    _axios2.default.post('/api/players/').then(function (res) {
+    _axios2.default.post('/api/players/', { name: name }).then(function (res) {
       return dispatch(addPlayer(res.data));
     });
   };

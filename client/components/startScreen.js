@@ -7,6 +7,9 @@ import { fetchAllPlayers, deletePlayer, newPlayer } from '../store';
 class StartScreen extends React.Component {
   constructor(props){
     super(props);
+    this.state = {
+      formInput: ''
+    };
   }
 
   componentDidMount() {
@@ -14,6 +17,23 @@ class StartScreen extends React.Component {
   }
 
   render() {
+    const handleChange = (evt) => {
+      this.setState({
+        formInput: evt.target.value
+      });
+    };
+
+    const handleSubmit = (evt) => {
+      evt.preventDefault();
+      this.props.addPlayer(this.state.formInput);
+    };
+
+    const resetForm = () => {
+      this.setState({
+        formInput: ''
+      });
+    };
+
     const options = [
       { key: 1, text: '5000', value: 5000 },
       { key: 2, text: '7500', value: 7500 },
@@ -21,15 +41,14 @@ class StartScreen extends React.Component {
       { key: 4, text: '15000', value: 15000 }
     ];
     let playerList = this.props.playerList;
-    console.log('player list...', playerList);
     return (
       this.props.playerList ?
         <div className="startContainer">
           <h1> Enter Player Names </h1>
           <div className="form-container">
-            <Form>
+            <Form onSubmit={(e) => { handleSubmit(e); resetForm(); }}>
               <Form.Field>
-                <input placeholder="Enter Player Name" />
+                <input name="nameField" value={this.state.formInput} onChange={(evt) => handleChange(evt)} placeholder="Enter Player Name" />
               </Form.Field>
               <Button type="submit">Add Player</Button>
             </Form>
@@ -62,6 +81,7 @@ class StartScreen extends React.Component {
     );
   }
 }
+
 
 const mapState = (state) => {
   return {

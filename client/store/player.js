@@ -35,8 +35,8 @@ export const deletePlayer = (playerId) => dispatch => {
     .then(res => dispatch(removePlayer(playerId)));
 };
 
-export const newPlayer = () => dispatch => {
-  axios.post('/api/players/')
+export const newPlayer = (name) => dispatch => {
+  axios.post('/api/players/', {name})
     .then(res => dispatch(addPlayer(res.data)));
 };
 
