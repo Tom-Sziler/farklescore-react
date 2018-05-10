@@ -29678,19 +29678,24 @@ var StartScreen = function (_React$Component) {
         });
       };
 
-      var handleSubmit = function handleSubmit(evt) {
-        evt.preventDefault();
-        _this2.props.addPlayer(_this2.state.formInput);
+      var formatName = function formatName(name) {
+        var newName = name.toLowerCase().split('');
+        newName[0] = newName[0].toUpperCase();
+        return newName.join('');
       };
 
-      var resetForm = function resetForm() {
+      var handleSubmit = function handleSubmit(evt) {
+        evt.preventDefault();
+        _this2.props.addPlayer(formatName(_this2.state.formInput));
         _this2.setState({
           formInput: ''
         });
       };
 
       var options = [{ key: 1, text: '5000', value: 5000 }, { key: 2, text: '7500', value: 7500 }, { key: 3, text: '10000', value: 10000 }, { key: 4, text: '15000', value: 15000 }];
+
       var playerList = this.props.playerList;
+
       return this.props.playerList ? _react2.default.createElement(
         'div',
         { className: 'startContainer' },
@@ -29704,8 +29709,8 @@ var StartScreen = function (_React$Component) {
           { className: 'form-container' },
           _react2.default.createElement(
             _semanticUiReact.Form,
-            { onSubmit: function onSubmit(e) {
-                handleSubmit(e);resetForm();
+            { onSubmit: function onSubmit(evt) {
+                return handleSubmit(evt);
               } },
             _react2.default.createElement(
               _semanticUiReact.Form.Field,

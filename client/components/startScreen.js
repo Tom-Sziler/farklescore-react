@@ -23,12 +23,15 @@ class StartScreen extends React.Component {
       });
     };
 
-    const handleSubmit = (evt) => {
-      evt.preventDefault();
-      this.props.addPlayer(this.state.formInput);
+    const formatName = (name) => {
+      let newName = name.toLowerCase().split('');
+      newName[0] = newName[0].toUpperCase();
+      return newName.join('');
     };
 
-    const resetForm = () => {
+    const handleSubmit = (evt) => {
+      evt.preventDefault();
+      this.props.addPlayer(formatName(this.state.formInput));
       this.setState({
         formInput: ''
       });
@@ -40,13 +43,15 @@ class StartScreen extends React.Component {
       { key: 3, text: '10000', value: 10000 },
       { key: 4, text: '15000', value: 15000 }
     ];
+
     let playerList = this.props.playerList;
+
     return (
       this.props.playerList ?
         <div className="startContainer">
           <h1> Enter Player Names </h1>
           <div className="form-container">
-            <Form onSubmit={(e) => { handleSubmit(e); resetForm(); }}>
+            <Form onSubmit={(evt) => handleSubmit(evt)}>
               <Form.Field>
                 <input name="nameField" value={this.state.formInput} onChange={(evt) => handleChange(evt)} placeholder="Enter Player Name" />
               </Form.Field>
@@ -73,8 +78,8 @@ class StartScreen extends React.Component {
             }
           </div>
         
-          <Dropdown placeholder='How Many Points To Win?' fluid selection options={options} />
-          <Button className="start" type='submit'>Start Game!</Button>
+          <Dropdown placeholder="How Many Points To Win?" fluid selection options={options} />
+          <Button className="start" type="submit">Start Game!</Button>
         </div>
         :
         null
