@@ -1,14 +1,15 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import { Button, Form, Dropdown, List, Icon } from 'semantic-ui-react';
-import { fetchAllPlayers, deletePlayer, newPlayer } from '../store';
+import { fetchAllPlayers, deletePlayer, newPlayer, createGame } from '../store';
 
 
 class StartScreen extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      formInput: ''
+      formInput: '',
+      pointsToWin: 0
     };
   }
 
@@ -34,6 +35,12 @@ class StartScreen extends React.Component {
       this.props.addPlayer(formatName(this.state.formInput));
       this.setState({
         formInput: ''
+      });
+    };
+
+    const selectPoints = (value) => {
+      this.setState({
+        pointsToWin: value
       });
     };
 
@@ -78,8 +85,8 @@ class StartScreen extends React.Component {
             }
           </div>
         
-          <Dropdown placeholder="How Many Points To Win?" fluid selection options={options} />
-          <Button className="start" type="submit">Start Game!</Button>
+          <Dropdown placeholder="How Many Points To Win?" fluid selection options={options} onChange={(evt, value) => selectPoints(value.value)} />
+          <Button className="start" type="submit" onClick={() => this.props.newGame(this.state.pointsToWin)}>Start Game!</Button>
         </div>
         :
         null
@@ -104,6 +111,9 @@ const mapDispatch = (dispatch) => {
     },
     addPlayer(name) {
       dispatch(newPlayer(name));
+    },
+    newGame(points) {
+      dispatch(createGame(points));
     }
   };
 };

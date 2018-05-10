@@ -7281,6 +7281,18 @@ Object.keys(_player).forEach(function (key) {
   });
 });
 
+var _game = __webpack_require__(927);
+
+Object.keys(_game).forEach(function (key) {
+  if (key === "default" || key === "__esModule") return;
+  Object.defineProperty(exports, key, {
+    enumerable: true,
+    get: function get() {
+      return _game[key];
+    }
+  });
+});
+
 var _redux = __webpack_require__(202);
 
 var _reduxLogger = __webpack_require__(809);
@@ -7295,9 +7307,11 @@ var _reduxDevtoolsExtension = __webpack_require__(805);
 
 var _player2 = _interopRequireDefault(_player);
 
+var _game2 = _interopRequireDefault(_game);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var reducer = (0, _redux.combineReducers)({ player: _player2.default });
+var reducer = (0, _redux.combineReducers)({ player: _player2.default, game: _game2.default });
 
 var middleware = (0, _reduxDevtoolsExtension.composeWithDevTools)((0, _redux.applyMiddleware)(_reduxThunk2.default, (0, _reduxLogger2.default)({ collapsed: true })));
 var store = (0, _redux.createStore)(reducer, middleware);
@@ -29657,7 +29671,8 @@ var StartScreen = function (_React$Component) {
     var _this = _possibleConstructorReturn(this, (StartScreen.__proto__ || Object.getPrototypeOf(StartScreen)).call(this, props));
 
     _this.state = {
-      formInput: ''
+      formInput: '',
+      pointsToWin: 0
     };
     return _this;
   }
@@ -29689,6 +29704,12 @@ var StartScreen = function (_React$Component) {
         _this2.props.addPlayer(formatName(_this2.state.formInput));
         _this2.setState({
           formInput: ''
+        });
+      };
+
+      var selectPoints = function selectPoints(value) {
+        _this2.setState({
+          pointsToWin: value
         });
       };
 
@@ -29761,10 +29782,14 @@ var StartScreen = function (_React$Component) {
             ' No players yet, add some now! '
           )
         ),
-        _react2.default.createElement(_semanticUiReact.Dropdown, { placeholder: 'How Many Points To Win?', fluid: true, selection: true, options: options }),
+        _react2.default.createElement(_semanticUiReact.Dropdown, { placeholder: 'How Many Points To Win?', fluid: true, selection: true, options: options, onChange: function onChange(evt, value) {
+            return selectPoints(value.value);
+          } }),
         _react2.default.createElement(
           _semanticUiReact.Button,
-          { className: 'start', type: 'submit' },
+          { className: 'start', type: 'submit', onClick: function onClick() {
+              return _this2.props.newGame(_this2.state.pointsToWin);
+            } },
           'Start Game!'
         )
       ) : null;
@@ -29790,6 +29815,9 @@ var mapDispatch = function mapDispatch(dispatch) {
     },
     addPlayer: function addPlayer(name) {
       dispatch((0, _store.newPlayer)(name));
+    },
+    newGame: function newGame(points) {
+      dispatch((0, _store.createGame)(points));
     }
   };
 };
@@ -76776,6 +76804,92 @@ module.exports = function(originalModule) {
 /***/ (function(module, exports) {
 
 /* (ignored) */
+
+/***/ }),
+/* 927 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.createGame = exports.endCurrentGame = undefined;
+
+exports.default = function () {
+  var currentGame = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : game;
+  var action = arguments[1];
+
+  switch (action.type) {
+    case END_GAME:
+      return currentGame.filter(function (thisGame) {
+        return thisGame.id !== action.game;
+      });
+    case NEW_GAME:
+      return [].concat(_toConsumableArray(currentGame), [action.game]);
+    default:
+      return currentGame;
+  }
+};
+
+var _axios = __webpack_require__(457);
+
+var _axios2 = _interopRequireDefault(_axios);
+
+var _history = __webpack_require__(235);
+
+var _history2 = _interopRequireDefault(_history);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
+
+/**
+ * ACTION TYPES
+ */
+var END_GAME = 'END_GAME';
+var NEW_GAME = 'NEW_GAME';
+
+/**
+ * INITIAL STATE
+ */
+var game = [];
+
+/**
+ * ACTION CREATORS
+ */
+
+var endGame = function endGame(gameGame) {
+  return { type: END_GAME, gameGame: gameGame };
+};
+var newGame = function newGame(gameGame) {
+  return { type: NEW_GAME, gameGame: gameGame };
+};
+
+/**
+ * THUNK CREATORS
+ */
+
+var endCurrentGame = exports.endCurrentGame = function endCurrentGame(gameId) {
+  return function (dispatch) {
+    _axios2.default.delete('/api/game/' + gameId).then(function (res) {
+      return dispatch(endGame(gameId));
+    });
+  };
+};
+
+var createGame = exports.createGame = function createGame(pointsToWin) {
+  return function (dispatch) {
+    _axios2.default.post('/api/game/', { pointsToWin: pointsToWin }).then(function (res) {
+      return dispatch(newGame(res.data));
+    });
+  };
+};
+
+/**
+ * REDUCER
+ */
 
 /***/ })
 /******/ ]);

@@ -4,10 +4,11 @@ module.exports = router;
 
 
 router.post('/', (req, res, next) => {
+  console.log('here is what got passed in', req.body);
   Game.create(req.body)
     .then(game =>
       Player.findAll()
-        .then(players => {
+        .then(() => {
           return Player.update(
             { gameId: game.id },
             { where: { gameId: null }}
