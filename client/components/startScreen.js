@@ -2,6 +2,7 @@ import React from 'react';
 import {connect} from 'react-redux';
 import { Button, Form, Dropdown, List, Icon } from 'semantic-ui-react';
 import { fetchAllPlayers, deletePlayer, newPlayer, createGame } from '../store';
+import { Link } from 'react-router-dom';
 
 
 class StartScreen extends React.Component {
@@ -86,7 +87,7 @@ class StartScreen extends React.Component {
           </div>
         
           <Dropdown placeholder="How Many Points To Win?" fluid selection options={options} onChange={(evt, value) => selectPoints(value.value)} />
-          <Button className="start" type="submit" onClick={() => this.props.newGame(this.state.pointsToWin)}>Start Game!</Button>
+          <Link to="/game" ><Button className="start" type="submit" onClick={() => this.props.newGame(this.state.pointsToWin)}>Start Game!</Button></Link>
         </div>
         :
         null
