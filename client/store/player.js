@@ -40,8 +40,8 @@ export const newPlayer = (name) => dispatch => {
     .then(res => dispatch(addPlayer(res.data)));
 };
 
-export const editPlayer = (playerId) => dispatch => {
-  axios.put(`/api/players/${playerId}`)
+export const editPlayer = (playerId, info) => dispatch => {
+  axios.put(`/api/players/${playerId}`, info)
     .then(res => dispatch(changeInfo(res.data)));
 };
 

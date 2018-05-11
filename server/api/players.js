@@ -15,12 +15,18 @@ router.post('/', (req, res, next) => {
 });
 
 router.put('/:id', (req, res, next) => {
+  console.log('GOT TO THE SERVER', req.body);
   Player.update(req.body, {
     where: {
       id: req.params.id
     }
   })
-    .then(player => res.json(player))
+    .then(() => Player.findOne({
+      where: {
+        id: req.params.id
+      }
+    }))
+    .then((player) => res.json(player))
     .catch(next);
 });
 

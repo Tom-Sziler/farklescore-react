@@ -21,6 +21,14 @@ const Player = db.define('player', {
   farkles: {
     type: Sequelize.INTEGER,
     defaultValue: 0
+  },
+  currentTurn: {
+    type: Sequelize.INTEGER,
+    defaultValue: 0
+  },
+  currentRoll: {
+    type: Sequelize.INTEGER,
+    defaultValue: 0
   }
 });
 
