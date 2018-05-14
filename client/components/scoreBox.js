@@ -26,7 +26,7 @@ class ScoreBox extends React.Component {
         </Table.Header>
         <Table.Body>
           <Table.Row>
-            <Table.Cell className="center" >TOTAL FARKLES: { currentPlayer.farkles }</Table.Cell>
+            <Table.Cell className="center" >TOTAL FARKLES: { currentPlayer.farkles > 15 ? `${currentPlayer.farkles}... Dear Lord!!` : currentPlayer.farkles}</Table.Cell>
           </Table.Row>
           <Table.Row>
             <Table.Cell className="center" >TOTAL POINTS: { currentPlayer.points }</Table.Cell>

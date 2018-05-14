@@ -34,15 +34,8 @@ class ScoreButtons extends React.Component {
       { name: '1-6 Straight', value: 1500 },
     ];
 
-    // need Current player ID
+
     let currentPlayer = this.props.playerList.filter(player => player.isTurn === true)[0];
-    // need value from pressed button
-    // send the above two items to the editPlayer function to mod the DB
-
-
-    // need to set "true" to a player as soon as we start the game
-    // Gotta figure out how to advance the turn reliably 
-
     return currentPlayer ? (
       <div className="gameContainer">
         <div className="buttonContainer">

@@ -1,7 +1,7 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import { Button, Form, Dropdown, List, Icon } from 'semantic-ui-react';
-import { fetchAllPlayers, deletePlayer, newPlayer, createGame } from '../store';
+import { fetchAllPlayers, deletePlayer, newPlayer, editPlayer, createGame } from '../store';
 import { Link } from 'react-router-dom';
 
 
@@ -87,7 +87,10 @@ class StartScreen extends React.Component {
           </div>
         
           <Dropdown placeholder="How Many Points To Win?" fluid selection options={options} onChange={(evt, value) => selectPoints(value.value)} />
-          <Link to="/game" ><Button className="start" type="submit" onClick={() => this.props.newGame(this.state.pointsToWin)}>Start Game!</Button></Link>
+          <Link to="/game" ><Button className="start" type="submit" onClick={() => {
+            this.props.setFirstPlayer(this.props.playerList[0]);
+            this.props.newGame(this.state.pointsToWin); 
+          }}>Start Game!</Button></Link>
         </div>
         :
         null
@@ -115,6 +118,9 @@ const mapDispatch = (dispatch) => {
     },
     newGame(points) {
       dispatch(createGame(points));
+    },
+    setFirstPlayer(player) {
+      dispatch(editPlayer(player.id, {isTurn: true}));
     }
   };
 };
