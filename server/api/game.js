@@ -18,6 +18,11 @@ router.post('/', (req, res, next) => {
     .catch(next);
 });
 
+router.get('/', (req, res, next) => {
+  Game.findAll({})
+    .then(game => res.json(game))
+    .catch(next);
+});
 // router.delete('/:id', (req, res, next) => {
 //   Player.destroy({
 //     where: {

@@ -1,7 +1,8 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import { Button } from 'semantic-ui-react';
-import { fetchAllPlayers, editPlayer } from '../store';
+import { fetchAllPlayers, editPlayer, fetchGame } from '../store';
+import history from '../history';
 
 
 class TurnButtons extends React.Component {
@@ -11,13 +12,18 @@ class TurnButtons extends React.Component {
 
   componentDidMount() {
     this.props.loadPlayers();
+    this.props.loadGame();
   }
 
 
   render(){
-
+    let points = null;
+    if (this.props.game[0]){
+      points = this.props.game[0].pointsToWin;
+    }
     const playerList = this.props.playerList.sort((a, b) => a.id - b.id);
     const currentPlayer = playerList.filter(player => player.isTurn === true)[0];
+   
     let nextPlayer = playerList.map((player, index) => {
       let next;
       if (player.isTurn === true){
@@ -30,10 +36,7 @@ class TurnButtons extends React.Component {
       {name: 'Roll Again', action: () => this.props.rollAgain(currentPlayer)},
       {name: 'Clear Roll', action: () => this.props.clearCurrentRoll(currentPlayer)},
       {name: 'End Turn', action: () => {
-        this.props.endRoll(currentPlayer);
-        if (currentPlayer.points > 10000){
-          // redirect to win screen
-        }
+        this.props.endRoll(currentPlayer, points);
         this.props.advanceTurn(currentPlayer, nextPlayer);
       }},
       {name: 'Farkle!', action: () => {
@@ -56,6 +59,7 @@ class TurnButtons extends React.Component {
 
 const mapState = (state) => {
   return {
+    game: state.game,
     playerList: state.player,
     currentPlayer: state.player.filter(player => player.isTurn === true)
   };
@@ -66,13 +70,19 @@ const mapDispatch = (dispatch) => {
     loadPlayers() {
       dispatch(fetchAllPlayers());
     },
+    loadGame() {
+      dispatch(fetchGame());
+    },
     advanceTurn(player, nextPlayer) {
       dispatch(editPlayer(player.id, {isTurn: false}));
       dispatch(editPlayer(nextPlayer.id, {isTurn: true}));
     },
-    endRoll(player) {
+    endRoll(player, winPoints) {
       let thisTurn = player.currentRoll += player.currentTurn;
       let newTotal = thisTurn += player.points;
+      if (newTotal >= winPoints){
+        history.push('/win');
+      }
       dispatch(editPlayer(player.id, {currentRoll: 0, currentTurn: 0, points: newTotal}));
     },
     farkle(player) {

@@ -19,7 +19,7 @@ const Game = require('./game');
 
 //associations
 Game.hasMany(Player);
-
+Player.belongsTo(Game);
 
 module.exports = {
   Player,
