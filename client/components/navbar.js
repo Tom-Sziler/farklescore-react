@@ -10,7 +10,7 @@ const Navbar = () => (
           <div>
             <Menu>
               <Menu.Item>
-                <a href="/"><h1 className="high" >High Maze Party Scorekeeper</h1></a>
+                <a href="/"><h1>Farkle Scorekeeper</h1></a>
               </Menu.Item>
             </Menu>
           </div>
