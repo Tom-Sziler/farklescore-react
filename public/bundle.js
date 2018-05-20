@@ -29427,8 +29427,8 @@ var Navbar = function Navbar() {
               { href: '/' },
               _react2.default.createElement(
                 'h1',
-                { className: 'high' },
-                'High Maze Party Scorekeeper'
+                null,
+                'Farkle Scorekeeper'
               )
             )
           )
