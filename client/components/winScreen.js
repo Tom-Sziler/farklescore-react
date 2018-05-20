@@ -1,7 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Table } from 'semantic-ui-react';
-import { fetchAllPlayers } from '../store';
+import { Table, Button } from 'semantic-ui-react';
+import { fetchAllPlayers, editPlayer } from '../store';
+import history from '../history';
 
 
 class WinScreen extends React.Component {
@@ -32,6 +33,12 @@ class WinScreen extends React.Component {
             })}
           </Table.Body>
         </Table>
+        <Button onClick={ () => {
+          players.forEach((player) => {
+            this.props.clearPlayerData(player);
+          });
+          this.props.history.push('/');
+        }}> Start New Game </Button>
       </div>
     ) :
       null;
@@ -48,6 +55,10 @@ const mapDispatch = (dispatch) => {
   return {
     loadPlayers() {
       dispatch(fetchAllPlayers());
+    },
+    clearPlayerData(player) {
+      const info = { isTurn: false, points: 0, farkles: 0, thisTurn: 0, thisRoll: 0, gameId: null};
+      dispatch(editPlayer(player.id, info));
     }
   };
 };
