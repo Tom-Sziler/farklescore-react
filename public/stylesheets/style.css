@@ -65,3 +65,12 @@
     color: #d11717;
 }
 
+.modal {
+    max-width: 450px;
+    margin: 0px -225px !important;
+}
+
+.btnContainer {
+    display: flex;
+    justify-content: center;
+}

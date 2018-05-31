@@ -29747,7 +29747,7 @@ var ShowScore = function (_React$Component) {
 
       return _react2.default.createElement(
         _semanticUiReact.Modal,
-        { trigger: _react2.default.createElement(
+        { closeIcon: true, className: 'modal center', trigger: _react2.default.createElement(
             _semanticUiReact.Button,
             { basic: true, color: 'blue', className: 'seeScores', onClick: function onClick() {
                 return console.log('[show scores modal]');
@@ -30105,8 +30105,10 @@ var TurnButtons = function (_React$Component) {
         } }, { name: 'Clear Roll', action: function action() {
           return _this2.props.clearCurrentRoll(currentPlayer);
         } }, { name: 'End Turn', action: function action() {
-          _this2.props.endRoll(currentPlayer, points);
-          _this2.props.advanceTurn(currentPlayer, nextPlayer);
+          var pointsMet = _this2.props.endRoll(currentPlayer, points);
+          if (pointsMet) {
+            _this2.props.advanceTurn(currentPlayer, nextPlayer);
+          }
         } }, { name: 'Farkle!', action: function action() {
           _this2.props.farkle(currentPlayer);
           _this2.props.advanceTurn(currentPlayer, nextPlayer);
@@ -30158,10 +30160,14 @@ var mapDispatch = function mapDispatch(dispatch) {
     endRoll: function endRoll(player, winPoints) {
       var thisTurn = player.currentRoll += player.currentTurn;
       var newTotal = thisTurn += player.points;
-      if (newTotal >= winPoints) {
+      if (player.points === 0 && thisTurn < 1000) {
+        alert('You must have over 1000 points to end your turn. Roll Again!');
+        return false;
+      } else if (newTotal >= winPoints) {
         _history2.default.push('/win');
       }
       dispatch((0, _store.editPlayer)(player.id, { currentRoll: 0, currentTurn: 0, points: newTotal }));
+      return true;
     },
     farkle: function farkle(player) {
       var newFarkles = player.farkles += 1;
@@ -30284,14 +30290,18 @@ var WinScreen = function (_React$Component) {
           )
         ),
         _react2.default.createElement(
-          _semanticUiReact.Button,
-          { onClick: function onClick() {
-              players.forEach(function (player) {
-                _this2.props.clearPlayerData(player);
-              });
-              _this2.props.history.push('/');
-            } },
-          ' Start New Game '
+          'div',
+          { className: 'btnContainer' },
+          _react2.default.createElement(
+            _semanticUiReact.Button,
+            { className: 'centerBtn', onClick: function onClick() {
+                players.forEach(function (player) {
+                  _this2.props.clearPlayerData(player);
+                });
+                _this2.props.history.push('/');
+              } },
+            ' Start New Game '
+          )
         )
       ) : null;
     }

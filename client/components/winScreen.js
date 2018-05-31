@@ -33,12 +33,14 @@ class WinScreen extends React.Component {
             })}
           </Table.Body>
         </Table>
-        <Button onClick={ () => {
-          players.forEach((player) => {
-            this.props.clearPlayerData(player);
-          });
-          this.props.history.push('/');
-        }}> Start New Game </Button>
+        <div className="btnContainer">
+          <Button className="centerBtn" onClick={ () => {
+            players.forEach((player) => {
+              this.props.clearPlayerData(player);
+            });
+            this.props.history.push('/');
+          }}> Start New Game </Button>
+        </div>
       </div>
     ) :
       null;

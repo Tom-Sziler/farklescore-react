@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Button, Modal, Table } from 'semantic-ui-react';
+import { Button, Modal, Table, Icon } from 'semantic-ui-react';
 import { fetchAllPlayers } from '../store';
 
 
@@ -18,7 +18,7 @@ class ShowScore extends React.Component {
     const players = this.props.playerList;
 
     return (
-      <Modal trigger={<Button basic color="blue" className="seeScores" onClick={() => console.log('[show scores modal]')}> Show Scores </Button>}>
+      <Modal closeIcon className="modal center" trigger={<Button basic color="blue" className="seeScores" onClick={() => console.log('[show scores modal]')} > Show Scores </Button>}>
         <Modal.Header>SCORES</Modal.Header>
         <Modal.Content>
           <Table singleLine>

@@ -36,8 +36,9 @@ class TurnButtons extends React.Component {
       {name: 'Roll Again', action: () => this.props.rollAgain(currentPlayer)},
       {name: 'Clear Roll', action: () => this.props.clearCurrentRoll(currentPlayer)},
       {name: 'End Turn', action: () => {
-        this.props.endRoll(currentPlayer, points);
-        this.props.advanceTurn(currentPlayer, nextPlayer);
+        let pointsMet = this.props.endRoll(currentPlayer, points);
+        if (pointsMet) {this.props.advanceTurn(currentPlayer, nextPlayer);
+        }
       }},
       {name: 'Farkle!', action: () => {
         this.props.farkle(currentPlayer);
@@ -80,10 +81,15 @@ const mapDispatch = (dispatch) => {
     endRoll(player, winPoints) {
       let thisTurn = player.currentRoll += player.currentTurn;
       let newTotal = thisTurn += player.points;
-      if (newTotal >= winPoints){
+      if (player.points === 0 && thisTurn < 1000){
+        alert('You must have over 1000 points to end your turn. Roll Again!');
+        return false;
+      }
+      else if (newTotal >= winPoints){
         history.push('/win');
       }
       dispatch(editPlayer(player.id, {currentRoll: 0, currentTurn: 0, points: newTotal}));
+      return true;
     },
     farkle(player) {
       let newFarkles = player.farkles += 1;
