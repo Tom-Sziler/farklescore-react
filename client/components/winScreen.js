@@ -17,17 +17,15 @@ class WinScreen extends React.Component {
 
   render() {
     const players = this.props.playerList.sort((a,b) => b.points - a.points);
-    console.log('here are your players', players);
-
     return players[0] ? (
-      <div>
+      <div className="winScreenContainer winBoard">
         <h1 className="center"> {players[0].name} Wins with {players[0].points} points!!</h1>
         <Table singleLine>
-          <Table.Body>
+          <Table.Body >
             {players.map(player => {
               return (
                 <Table.Row key={player.id}>
-                  <Table.Cell className="center" >{player.name}: <span>{player.points} points...</span> <span>Farkles: {player.farkles}</span></Table.Cell>
+                  <Table.Cell className="center" >{player.name}: <span>{player.points} points ...</span> <span>Farkles: {player.farkles}</span></Table.Cell>
                 </Table.Row>
               );
             })}

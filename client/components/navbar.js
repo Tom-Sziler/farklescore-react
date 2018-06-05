@@ -7,10 +7,10 @@ const Navbar = () => (
   <div>
     <nav>
       {(
-          <div>
+          <div className="titleContainer">
             <Menu>
               <Menu.Item>
-                <a href="/"><h1>Farkle Scorekeeper</h1></a>
+                <a href="/" className="title"><h1>Farkle Scorekeeper</h1></a>
               </Menu.Item>
             </Menu>
           </div>

@@ -29415,7 +29415,7 @@ var Navbar = function Navbar() {
       null,
       _react2.default.createElement(
         'div',
-        null,
+        { className: 'titleContainer' },
         _react2.default.createElement(
           _semanticUiReact.Menu,
           null,
@@ -29424,7 +29424,7 @@ var Navbar = function Navbar() {
             null,
             _react2.default.createElement(
               'a',
-              { href: '/' },
+              { href: '/', className: 'title' },
               _react2.default.createElement(
                 'h1',
                 null,
@@ -30242,11 +30242,9 @@ var WinScreen = function (_React$Component) {
       var players = this.props.playerList.sort(function (a, b) {
         return b.points - a.points;
       });
-      console.log('here are your players', players);
-
       return players[0] ? _react2.default.createElement(
         'div',
-        null,
+        { className: 'winScreenContainer winBoard' },
         _react2.default.createElement(
           'h1',
           { className: 'center' },
@@ -30275,7 +30273,7 @@ var WinScreen = function (_React$Component) {
                     'span',
                     null,
                     player.points,
-                    ' points...'
+                    ' points ...'
                   ),
                   ' ',
                   _react2.default.createElement(

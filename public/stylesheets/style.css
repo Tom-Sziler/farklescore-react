@@ -1,4 +1,11 @@
 
+
+body {
+ width: 450px;
+ margin: 0px auto;
+}
+
+
 .gameContainer {
     display: flex;
     justify-content: center;
@@ -68,9 +75,24 @@
 .modal {
     max-width: 450px;
     margin: 0px -225px !important;
+    margin-top: -400px !important;
 }
 
 .btnContainer {
     display: flex;
     justify-content: center;
 }
+
+.winBoard {
+    width: 450px;
+    margin: 0px auto;
+    margin-top: 100px;
+}
+
+.titleContainer {
+    display: flex;
+    justify-content: center;
+    width: 450px;
+}
+
+
